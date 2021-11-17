@@ -1,5 +1,6 @@
-import React, {FunctionComponent, useState} from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Pressable,
   SafeAreaView,
@@ -9,7 +10,10 @@ import {
   View
 } from "react-native";
 
-const catagories= [{name :'Decking & Handrails'}, {name : 'Deck Kits'}, {name : 'Timber'}, {name :'Garden Buildings'},
+import { DataStore } from '@aws-amplify/datastore';
+import { Categories, Test } from "../../src/models";
+
+const catagories = [{name :'Decking & Handrails'}, {name : 'Deck Kits'}, {name : 'Timber'}, {name :'Garden Buildings'},
   {name :'Artificial Grass'}, {name :'Fencing & Gates'}, {name :'Paint & Stains'}, {name :'Paving'}, {name :'Bricks & Aggregate'},
   {name :'Fixings & Ironmongery'}, {name :'Building Products'}, {name :'Garden Extras'}, {name :'Tools'}, {name :'Samples'},
   {name :'Factory 2nds'}
@@ -17,23 +21,44 @@ const catagories= [{name :'Decking & Handrails'}, {name : 'Deck Kits'}, {name : 
 
 const sub_catagories = [{name: 'All Decking'},{name: 'Softwood Deck Boards'},{name: 'Composite Deck Boards'}]
 
-export interface IcatagoryItem {
+export interface ICategoryItem {
   name: string
+  parent: string
 }
 
 export interface IitemView {
-  item: IcatagoryItem
+  item: ICategoryItem
+}
+
+const doMap = () => {
+
 }
 
 const CategoriesScreen = ({navigation,route} :any) => {
 
-  const [list] = useState(route.params.title == "Categories" ? catagories : sub_catagories)
+  const [list,setList] = useState<ICategoryItem[]>([])
+  const [loading,setLoading] = useState(true)
 
+  // The Following are used to fetch the Categories
+  useEffect(() => {
+    fetchData()
+  },[])
+
+  const fetchData = async () => {
+    const categories = await DataStore.query(Categories,c => c.parent('eq',route.params.title))
+    // @ts-ignore
+    setList(categories.map(item => ({name:item.name,parent:item.parent})))
+    setLoading(false)
+    return categories
+  }
+
+  // When a Category is picked, load the next page
   const clickedItem = (name : string) => {
     navigation.push('Categories',{title:name})
   }
 
-  const Item = ({ name } : IcatagoryItem) => (
+  // Defining our list of Categories
+  const Item = ({ name } : ICategoryItem) => (
       <Pressable onPress={() => clickedItem(name)}>
         <View style={styles.item}>
           <Text style={styles.name}>{name}</Text>
@@ -42,16 +67,20 @@ const CategoriesScreen = ({navigation,route} :any) => {
   );
 
   const renderItem = ({ item } : IitemView) => (
-      <Item name={item.name} />
+      <Item name={item.name} parent={item.parent}/>
   );
 
   return (
       <SafeAreaView style={styles.container}>
-          <FlatList
+          {loading ?
+            <ActivityIndicator size='large'/>
+            :
+            <FlatList
               data={list}
               renderItem={renderItem}
               keyExtractor={item => item.name}
-          />
+            />
+          }
       </SafeAreaView>
   );
 };

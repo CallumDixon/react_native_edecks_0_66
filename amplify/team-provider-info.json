@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "reactnativeedecksrn0d384efdc": {}
+      },
+      "function": {
+        "reactnativeedecksrn03b0ce56a": {
+          "deploymentBucketName": "amplify-reactnativeedecksrn0-dev-94913-deployment",
+          "s3Key": "amplify-builds/reactnativeedecksrn03b0ce56a-56574f4f4d663963725a-build.zip"
+        }
       }
     }
   }

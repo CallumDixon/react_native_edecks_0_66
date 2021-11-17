@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "name": "/categories",
+      "lambdaFunction": "reactnativeedecksrn03b0ce56a",
+      "privacy": {
+        "open": true
+      },
+      "policyResourceName": "/categories"
+    }
+  ],
+  "resourceName": "Categories",
+  "apiName": "Categories",
+  "functionArns": [
+    {
+      "lambdaFunction": "reactnativeedecksrn03b0ce56a"
+    }
+  ],
+  "privacy": {
+    "auth": 0,
+    "unauth": 0,
+    "authRoleName": "amplify-reactnativeedecksrn0-dev-94913-authRole",
+    "unAuthRoleName": "amplify-reactnativeedecksrn0-dev-94913-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "reactnativeedecksrn03b0ce56a",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}
