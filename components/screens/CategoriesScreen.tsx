@@ -13,14 +13,6 @@ import {
 import { DataStore } from '@aws-amplify/datastore';
 import { Categories, Test } from "../../src/models";
 
-const catagories = [{name :'Decking & Handrails'}, {name : 'Deck Kits'}, {name : 'Timber'}, {name :'Garden Buildings'},
-  {name :'Artificial Grass'}, {name :'Fencing & Gates'}, {name :'Paint & Stains'}, {name :'Paving'}, {name :'Bricks & Aggregate'},
-  {name :'Fixings & Ironmongery'}, {name :'Building Products'}, {name :'Garden Extras'}, {name :'Tools'}, {name :'Samples'},
-  {name :'Factory 2nds'}
-]
-
-const sub_catagories = [{name: 'All Decking'},{name: 'Softwood Deck Boards'},{name: 'Composite Deck Boards'}]
-
 export interface ICategoryItem {
   name: string
   parent: string
@@ -28,10 +20,6 @@ export interface ICategoryItem {
 
 export interface IitemView {
   item: ICategoryItem
-}
-
-const doMap = () => {
-
 }
 
 const CategoriesScreen = ({navigation,route} :any) => {
@@ -73,7 +61,7 @@ const CategoriesScreen = ({navigation,route} :any) => {
   return (
       <SafeAreaView style={styles.container}>
           {loading ?
-            <ActivityIndicator size='large'/>
+            <ActivityIndicator size='large' style={{alignSelf:"center"}}/>
             :
             <FlatList
               data={list}
@@ -89,6 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
+    justifyContent:"center"
   },
   item: {
     padding: 20,
