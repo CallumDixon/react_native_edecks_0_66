@@ -1,7 +1,14 @@
+type BasketItem @model @auth(rules: [{allow: public}, {allow: owner}]) {
+  id: ID!
+  item_name: String
+  quantity: String
+}
+
 type Categories @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
   parent: String
+  order: Int
 }
 
 type Test @model @auth(rules: [{allow: public}]) {

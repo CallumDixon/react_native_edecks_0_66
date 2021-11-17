@@ -11,11 +11,13 @@ import {
 } from "react-native";
 
 import { DataStore } from '@aws-amplify/datastore';
-import { Categories, Test } from "../../src/models";
+import { Categories} from "../../src/models";
+import { SortDirection } from "aws-amplify";
 
 export interface ICategoryItem {
   name: string
   parent: string
+  order: number
 }
 
 export interface IitemView {
@@ -33,9 +35,12 @@ const CategoriesScreen = ({navigation,route} :any) => {
   },[])
 
   const fetchData = async () => {
-    const categories = await DataStore.query(Categories,c => c.parent('eq',route.params.title))
+    const categories = await DataStore.query(Categories,c => c.parent('eq',route.params.title),
+      {  sort: (s) => s.order(SortDirection.ASCENDING),
+    })
     // @ts-ignore
-    setList(categories.map(item => ({name:item.name,parent:item.parent})))
+    setList(categories.map(item => ({name:item.name,parent:item.parent,order:item.order})))
+
     setLoading(false)
     return categories
   }
@@ -55,7 +60,7 @@ const CategoriesScreen = ({navigation,route} :any) => {
   );
 
   const renderItem = ({ item } : IitemView) => (
-      <Item name={item.name} parent={item.parent}/>
+      <Item name={item.name} parent={item.parent} order={item.order}/>
   );
 
   return (
