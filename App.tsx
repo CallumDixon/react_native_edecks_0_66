@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { LogBox } from 'react-native';
+import { Image, LogBox, Text, View } from "react-native";
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
@@ -28,10 +28,10 @@ const App = () => {
                 initialRouteName="Home"
                 screenOptions={{
                     headerStyle: {
-                        backgroundColor: colors.ed_orange,
+                        backgroundColor: colors.ken_green,
                     },
                     tabBarInactiveTintColor: '#4d4d4d',
-                    tabBarActiveTintColor: colors.ed_orange,
+                    tabBarActiveTintColor: colors.ken_green,
                     tabBarStyle:{
                     }
                 }}>
@@ -40,9 +40,17 @@ const App = () => {
                     name="Home"
                     component={HomeScreen}
                     options={{
-                        tabBarIcon: ({color}) => (
-                            <Icon name="home" size={30} color={color}/>
+                      tabBarIcon: ({color}) => (
+                          <Icon name="home" size={30} color={color}/>
+                      ),
+                      headerTitle:() => {
+                        return(
+                          <View style={[{flexDirection:"row"}]}>
+                            <Image style={[{width:25,height:25}]} source={require("./favicons.png")}/>
+                            <Text style={[{fontSize:16,fontWeight:"bold"}]}>Kennings</Text>
+                          </View>
                         )
+                      }
                     }}/>
 
                 <Tab.Screen

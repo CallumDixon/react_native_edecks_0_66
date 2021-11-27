@@ -1,7 +1,8 @@
-import * as React from 'react'
-import { View, StyleSheet, Button } from "react-native";
-import { DataStore } from '@aws-amplify/datastore';
-import { Categories, Test } from "../../src/models";
+import * as React from "react";
+import { Button, StyleSheet, View } from "react-native";
+import { DataStore } from "@aws-amplify/datastore";
+import { Categories } from "../../src/models";
+import { Predicates } from "aws-amplify";
 
 interface ICategoryItem {
   name: string
@@ -9,13 +10,18 @@ interface ICategoryItem {
   order: number
 }
 
-const categories = [{name :'Decking & Handrails'}, {name : 'Deck Kits'}, {name : 'Timber'}, {name :'Garden Buildings'},
-  {name :'Artificial Grass'}, {name :'Fencing & Gates'}, {name :'Paint & Stains'}, {name :'Paving'}, {name :'Bricks & Aggregate'},
-  {name :'Fixings & Ironmongery'}, {name :'Building Products'}, {name :'Garden Extras'}, {name :'Tools'}, {name :'Samples'},
-  {name :'Factory 2nds'}
+const categories = [{name :'Timber & Sheet Materials'}, {name : 'Building Materials'}, {name : 'Landscaping & Gardening'},
+  {name :'Fencing'}, {name :'Decking'}, {name :'Roofing & Insulation'},
+  {name :'Plumbing & Electrical'}, {name :'Fixings & Ironmongery'}, {name :'Tools & PPE'},
+  {name :'Decorating & Interiors'}, {name :'Windows, Doors & Joinery'}
 ]
 
-const Decking_Handrails = [{name: 'All Decking'},{name: 'Softwood Deck Boards'},{name: 'Composite Deck Boards'}]
+const timber_sheet_materials = [{name: 'Timber'},{name: 'Sheet Materials'},{name: 'Cladding'},{name: 'Planed Timber'}
+  ,{name: 'Mouldings'},{name: 'Skirting Board & Architrave'},{name: 'Best Sellers'}]
+
+const building_materials = [{name: 'Bricks & Blocks'},{name:'Aggregates'},{name:'Cement & Bagged Powders'},
+  {name:'Drainage'},{name:'Above Ground (Soil)'},{name:'Plaster & Plasterboards'},{name:'Lintels'},
+  {name:'Building Chemicals'},{name:'Metalwork'},{name:'Damp Proof Course'},{name:'Wire & Mesh'},{name:'Best Sellers'}]
 
 export const HomeScreen = () => {
 
@@ -31,14 +37,27 @@ export const HomeScreen = () => {
     }
   }
 
+  const deleteAll = async() => {
+    DataStore.delete(Categories,Predicates.ALL)
+    }
+
   return(
     <View style={styles.screen}>
       <Button title={"Base Categories"} onPress={() => {
-        post(Categories,"Categories")
+        post(categories,"Categories")
       }}>Base Categories</Button>
-      <Button title={"Decking & Handrails"} onPress={() => {
-        post(Decking_Handrails,"Decking & Handrails")
+
+      <Button title={"Timber & Sheet Materials"} onPress={() => {
+        post(timber_sheet_materials,"Timber & Sheet Materials")
       }}>Decking & Handrails</Button>
+
+      <Button title={"Building Materials"} onPress={() => {
+        post(building_materials,"Building Materials")
+      }}>Decking & Handrails</Button>
+
+      <Button title={"Delete All"} onPress={() =>{
+        deleteAll()
+      }}>Delete All</Button>
 
     </View>
   )
