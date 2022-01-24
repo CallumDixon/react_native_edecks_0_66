@@ -1,26 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-reactnativeedecksrn0-dev-94913-authRole",
-      "UnauthRoleArn": "arn:aws:iam::930411700518:role/amplify-reactnativeedecksrn0-dev-94913-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::930411700518:role/amplify-reactnativeedecksrn0-dev-94913-authRole",
+      "AuthRoleName": "amplify-kennings-dev-142049-authRole",
+      "UnauthRoleArn": "arn:aws:iam::930411700518:role/amplify-kennings-dev-142049-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::930411700518:role/amplify-kennings-dev-142049-authRole",
       "Region": "eu-west-2",
-      "DeploymentBucketName": "amplify-reactnativeedecksrn0-dev-94913-deployment",
-      "UnauthRoleName": "amplify-reactnativeedecksrn0-dev-94913-unauthRole",
-      "StackName": "amplify-reactnativeedecksrn0-dev-94913",
-      "StackId": "arn:aws:cloudformation:eu-west-2:930411700518:stack/amplify-reactnativeedecksrn0-dev-94913/75af1150-46c2-11ec-a1a3-02c1a90a92a8",
-      "AmplifyAppId": "dikyfii413jmq"
-    },
-    "categories": {
-      "auth": {
-        "reactnativeedecksrn0d384efdc": {}
-      },
-      "function": {
-        "reactnativeedecksrn03b0ce56a": {
-          "deploymentBucketName": "amplify-reactnativeedecksrn0-dev-94913-deployment",
-          "s3Key": "amplify-builds/reactnativeedecksrn03b0ce56a-56574f4f4d663963725a-build.zip"
-        }
-      }
+      "DeploymentBucketName": "amplify-kennings-dev-142049-deployment",
+      "UnauthRoleName": "amplify-kennings-dev-142049-unauthRole",
+      "StackName": "amplify-kennings-dev-142049",
+      "StackId": "arn:aws:cloudformation:eu-west-2:930411700518:stack/amplify-kennings-dev-142049/d65e1c00-7d20-11ec-aac5-06fcac404b16",
+      "AmplifyAppId": "d1rucrbwp3x567"
     }
   }
 }

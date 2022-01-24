@@ -10,14 +10,17 @@ import {
   View
 } from "react-native";
 
-import { DataStore } from '@aws-amplify/datastore';
-import { Categories} from "../../src/models";
-import { SortDirection } from "aws-amplify";
+import { graphqlOperation, SortDirection } from "aws-amplify";
+import { API } from 'aws-amplify';
+import * as queries from '../../src/graphql/queries'
+import { categoryByOrder, listCategorys } from "../../src/graphql/queries";
+import { ModelSortDirection } from "../../src/API";
 
 export interface ICategoryItem {
   name: string
   parent: string
   order: number
+  leaf_node: boolean
 }
 
 export interface IitemView {
@@ -32,14 +35,28 @@ const CategoriesScreen = ({navigation,route} :any) => {
   // The Following are used to fetch the Categories
   useEffect(() => {
     fetchData()
+      .then((data) => {
+      console.log(data)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   },[])
 
   const fetchData = async () => {
-    const categories = await DataStore.query(Categories,c => c.parent('eq',route.params.title),
-      {  sort: (s) => s.order(SortDirection.ASCENDING),
-    })
+    let filter = {
+      parent: {
+        eq: route.params.title
+      }
+    }
+
+    const categories = await API.graphql(graphqlOperation(categoryByOrder,{
+      sortDirection: ModelSortDirection.ASC,
+      parent: route.params.title
+    }))
+
     // @ts-ignore
-    setList(categories.map(item => ({name:item.name,parent:item.parent,order:item.order})))
+    setList(categories.data.categoryByOrder.items.map((item: { name: any; parent: any; order: any; }) => ({name:item.name,parent:item.parent,order:item.order})))
 
     setLoading(false)
     return categories
@@ -60,7 +77,7 @@ const CategoriesScreen = ({navigation,route} :any) => {
   );
 
   const renderItem = ({ item } : IitemView) => (
-      <Item name={item.name} parent={item.parent} order={item.order}/>
+      <Item name={item.name} parent={item.parent} order={item.order} leaf_node={item.leaf_node}/>
   );
 
   return (

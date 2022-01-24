@@ -84,4 +84,4 @@ const App = () => {
         </NavigationContainer>
     );
 };
-export default withAuthenticator(App)
+export default App

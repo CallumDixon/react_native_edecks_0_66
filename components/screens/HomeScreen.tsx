@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Button, StyleSheet, View } from "react-native";
-import { DataStore } from "@aws-amplify/datastore";
-import { Categories } from "../../src/models";
-import { Predicates } from "aws-amplify";
-
+import { API, Predicates } from "aws-amplify";
+import * as mutations from '../../src/graphql/mutations'
+import * as queries from "../../src/graphql/queries";
 interface ICategoryItem {
   name: string
   parent: string
@@ -27,18 +26,27 @@ export const HomeScreen = () => {
 
   const post = async (parentArray:any,parentName: string) => {
     for (let i = 0; i < parentArray.length; i++) {
-      await DataStore.save(
-        new Categories({
-          "name": parentArray[i].name,
-          "parent": parentName,
-          "order": i+1
-        })
-      );
+      await API.graphql({query: mutations.createCategory, variables: {input: {
+            "name": parentArray[i].name,
+            "parent": parentName,
+            "order": i+1
+      }}})
     }
   }
 
+  const get = async () => {
+    let filter = {
+      parent: {
+        ne: "Categories"
+      }
+    }
+    const categories = await API.graphql({query: queries.listCategorys,variables: {filter: filter}})
+    // @ts-ignore
+    console.log(categories.data.listCategorys.items)
+  }
+
   const deleteAll = async() => {
-    DataStore.delete(Categories,Predicates.ALL)
+    //DataStore.delete(Categories,Predicates.ALL)
     }
 
   return(
@@ -59,6 +67,9 @@ export const HomeScreen = () => {
         deleteAll()
       }}>Delete All</Button>
 
+      <Button title={"Query log"} onPress={() => {
+        get()
+      }}>Query Log</Button>
     </View>
   )
 }
