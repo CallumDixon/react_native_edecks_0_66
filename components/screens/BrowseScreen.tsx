@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
-import { graphqlOperation, SortDirection } from "aws-amplify";
+import { graphqlOperation} from "aws-amplify";
 import { API } from 'aws-amplify';
 import { categoryByOrder} from "../../src/graphql/queries";
 import { ModelSortDirection } from "../../src/API";
-import ProductScreen from "./ProductScreen";
 
 export interface IBrowseItem {
   name: string
@@ -25,18 +24,14 @@ const BrowseScreen = ({navigation,route} :any) => {
   // The Following are used to fetch the Categories
   useEffect(() => {
 
-    if(route.params.leaf_node){
-      fetchProducts()
-    }
-    else{
-      fetchCategories()
-        .then((data) => {
-          console.log(data)
-        })
-        .catch((e) => {
-          console.log(e)
-        })
-    }
+    fetchCategories()
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
+
   },[])
 
   const fetchCategories = async () => {
@@ -58,14 +53,15 @@ const BrowseScreen = ({navigation,route} :any) => {
     return categories
   }
 
-  const fetchProducts = async () => {
-    setList([{name:"stuff",parent:"Timber Product 1",order:1,leaf_node:true}])
-    setLoading(false)
-  }
 
   // When a Category is picked, load the next page
   const clickedItem = (name : string, leaf_node: boolean) => {
-    navigation.push('Categories',{title: name, leaf_node: leaf_node})
+    if(leaf_node){
+      navigation.push('Products',{title: name})
+    }
+    else {
+      navigation.push('Categories', { title: name, leaf_node: leaf_node })
+    }
   }
 
   // Defining our list of Categories

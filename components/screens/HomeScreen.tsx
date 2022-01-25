@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { API, Predicates } from "aws-amplify";
 import * as mutations from '../../src/graphql/mutations'
 import * as queries from "../../src/graphql/queries";
@@ -30,7 +30,7 @@ export const HomeScreen = () => {
             "name": parentArray[i].name,
             "parent": parentName,
             "order": i+1,
-            "leaf_node": true
+            "leaf_node": false
       }}})
     }
   }
@@ -52,7 +52,18 @@ export const HomeScreen = () => {
 
   return(
     <View style={styles.screen}>
-      <Button title={"Base Categories"} onPress={() => {
+
+      <View>
+        <Text>Product of the Week</Text>
+        <Text>Super Fast Delivery</Text>
+        <Text>Contact our Sales Team</Text>
+        <Text>Instant free Credit</Text>
+      </View>
+
+      <View>
+        <Image style={styles.img} source={require("../../img/ken_del_2021.jpeg")}/>
+      </View>
+      {/*<Button title={"Base Categories"} onPress={() => {
         post(categories,"Categories")
       }}>Base Categories</Button>
 
@@ -70,7 +81,7 @@ export const HomeScreen = () => {
 
       <Button title={"Query log"} onPress={() => {
         get()
-      }}>Query Log</Button>
+      }}>Query Log</Button>*/}
     </View>
   )
 }
@@ -79,6 +90,10 @@ let styles = StyleSheet.create({
   screen: {
     flex: 1,
   },
+  img: {
+    width: 200,
+    height: 200
+  }
 })
 
 export default HomeScreen

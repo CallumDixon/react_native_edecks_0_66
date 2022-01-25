@@ -17,7 +17,6 @@ type Product @model
   id: ID!
   name: String!
   parent: String!
-  order: Int
-  quantity: Int
-
+  description: String!
+  cost: Float
 }

@@ -35,6 +35,39 @@ export const listCategorys = /* GraphQL */ `
     }
   }
 `;
+export const getProduct = /* GraphQL */ `
+  query GetProduct($id: ID!) {
+    getProduct(id: $id) {
+      id
+      name
+      parent
+      description
+      cost
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listProducts = /* GraphQL */ `
+  query ListProducts(
+    $filter: ModelProductFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        parent
+        description
+        cost
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const categoryByOrder = /* GraphQL */ `
   query CategoryByOrder(
     $parent: String

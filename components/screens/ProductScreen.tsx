@@ -1,7 +1,32 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, Text } from "react-native";
+import { API, graphqlOperation } from "aws-amplify";
+import { listProducts } from "../../src/graphql/queries";
 
-const ProductScreen = () => {
+export interface IProduct {
+  id: String
+  name: String
+  parent: String
+  description: String
+  cost: Number
+}
+
+const ProductScreen = ({navigation,route} :any) => {
+
+
+  useEffect( () => {
+    getProduct()
+      .then((product) => {
+      console.log(product)
+    })
+
+  },[])
+
+  const getProduct = async () => {
+    let filter = { name: { eq: route.params.name } }
+
+    return API.graphql(graphqlOperation(listProducts, { filter: filter }));
+  }
 
   return(
     <SafeAreaView>

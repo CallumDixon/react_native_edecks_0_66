@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import BrowseScreen from "./BrowseScreen";
 import ProductScreen from "./ProductScreen";
