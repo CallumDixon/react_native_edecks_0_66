@@ -11,8 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeScreen from './components/screens/HomeScreen';
-import CategoriesScreenNavigator from "./components/screens/CategoriesNavigatorScreen";
-import CategoriesScreen from './components/screens/CategoriesScreen';
+import BrowseScreenNavigator from "./components/screens/BrowseNavigatorScreen";
 import MyAccountScreen from './components/screens/MyAccountScreen';
 import BasketScreen from './components/screens/BasketScreen';
 import {colors} from "./config/colors";
@@ -55,7 +54,7 @@ const App = () => {
 
                 <Tab.Screen
                     name="Browse"
-                    component={CategoriesScreenNavigator}
+                    component={BrowseScreenNavigator}
                     options={{
                         tabBarIcon: ({color}) => (
                             <Icon name="book" size={30} color={color}/>

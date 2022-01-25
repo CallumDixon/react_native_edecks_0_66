@@ -9,3 +9,5 @@ const ProductScreen = () => {
     </SafeAreaView>
   )
 }
+
+export default ProductScreen

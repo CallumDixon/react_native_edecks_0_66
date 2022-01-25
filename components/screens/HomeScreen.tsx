@@ -29,7 +29,8 @@ export const HomeScreen = () => {
       await API.graphql({query: mutations.createCategory, variables: {input: {
             "name": parentArray[i].name,
             "parent": parentName,
-            "order": i+1
+            "order": i+1,
+            "leaf_node": true
       }}})
     }
   }

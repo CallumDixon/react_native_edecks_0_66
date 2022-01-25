@@ -1,22 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Pressable,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
-
+import { ActivityIndicator, FlatList, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { graphqlOperation, SortDirection } from "aws-amplify";
 import { API } from 'aws-amplify';
-import * as queries from '../../src/graphql/queries'
-import { categoryByOrder, listCategorys } from "../../src/graphql/queries";
+import { categoryByOrder} from "../../src/graphql/queries";
 import { ModelSortDirection } from "../../src/API";
+import ProductScreen from "./ProductScreen";
 
-export interface ICategoryItem {
+export interface IBrowseItem {
   name: string
   parent: string
   order: number
@@ -24,52 +14,63 @@ export interface ICategoryItem {
 }
 
 export interface IitemView {
-  item: ICategoryItem
+  item: IBrowseItem
 }
 
-const CategoriesScreen = ({navigation,route} :any) => {
+const BrowseScreen = ({navigation,route} :any) => {
 
-  const [list,setList] = useState<ICategoryItem[]>([])
+  const [list,setList] = useState<IBrowseItem[]>([])
   const [loading,setLoading] = useState(true)
 
   // The Following are used to fetch the Categories
   useEffect(() => {
-    fetchData()
-      .then((data) => {
-      console.log(data)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+
+    if(route.params.leaf_node){
+      fetchProducts()
+    }
+    else{
+      fetchCategories()
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
   },[])
 
-  const fetchData = async () => {
+  const fetchCategories = async () => {
     let filter = {
       parent: {
         eq: route.params.title
       }
     }
-
     const categories = await API.graphql(graphqlOperation(categoryByOrder,{
       sortDirection: ModelSortDirection.ASC,
       parent: route.params.title
     }))
 
     // @ts-ignore
-    setList(categories.data.categoryByOrder.items.map((item: { name: any; parent: any; order: any; }) => ({name:item.name,parent:item.parent,order:item.order})))
+    setList(categories.data.categoryByOrder.items.map((item: { name: string; parent: string; order: any; leaf_node: boolean}) =>
+      ({name:item.name,parent:item.parent,order:item.order, leaf_node: item.leaf_node})))
 
     setLoading(false)
     return categories
   }
 
+  const fetchProducts = async () => {
+    setList([{name:"stuff",parent:"Timber Product 1",order:1,leaf_node:true}])
+    setLoading(false)
+  }
+
   // When a Category is picked, load the next page
-  const clickedItem = (name : string) => {
-    navigation.push('Categories',{title:name})
+  const clickedItem = (name : string, leaf_node: boolean) => {
+    navigation.push('Categories',{title: name, leaf_node: leaf_node})
   }
 
   // Defining our list of Categories
-  const Item = ({ name } : ICategoryItem) => (
-      <Pressable onPress={() => clickedItem(name)}>
+  const Item = ({ name, leaf_node } : IBrowseItem) => (
+      <Pressable onPress={() => clickedItem(name, leaf_node)}>
         <View style={styles.item}>
           <Text style={styles.name}>{name}</Text>
         </View>
@@ -114,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoriesScreen;
+export default BrowseScreen;
