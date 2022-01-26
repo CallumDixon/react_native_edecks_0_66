@@ -57,7 +57,7 @@ const BrowseScreen = ({navigation,route} :any) => {
   // When a Category is picked, load the next page
   const clickedItem = (name : string, leaf_node: boolean) => {
     if(leaf_node){
-      navigation.push('Products',{title: name})
+      navigation.push('Products',{name: name})
     }
     else {
       navigation.push('Categories', { title: name, leaf_node: leaf_node })
