@@ -25,13 +25,8 @@ const BrowseScreen = ({navigation,route} :any) => {
   useEffect(() => {
 
     fetchCategories()
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
-
+      .then((data) => {})
+      .catch((e) => {})
   },[])
 
   const fetchCategories = async () => {

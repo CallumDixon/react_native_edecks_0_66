@@ -3,11 +3,16 @@ import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { API, Predicates } from "aws-amplify";
 import * as mutations from '../../src/graphql/mutations'
 import * as queries from "../../src/graphql/queries";
+import { getBasketItem, setBasketItem } from "../../functions/deviceStorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 interface ICategoryItem {
   name: string
   parent: string
   order: number
 }
+import { SetBasketContext } from "../../functions/context";
+import { useContext } from "react";
+
 
 const categories = [{name :'Timber & Sheet Materials'}, {name : 'Building Materials'}, {name : 'Landscaping & Gardening'},
   {name :'Fencing'}, {name :'Decking'}, {name :'Roofing & Insulation'},
@@ -23,6 +28,9 @@ const building_materials = [{name: 'Bricks & Blocks'},{name:'Aggregates'},{name:
   {name:'Building Chemicals'},{name:'Metalwork'},{name:'Damp Proof Course'},{name:'Wire & Mesh'},{name:'Best Sellers'}]
 
 export const HomeScreen = () => {
+
+  const setBasket = useContext(SetBasketContext)
+
 
   const post = async (parentArray:any,parentName: string) => {
     for (let i = 0; i < parentArray.length; i++) {
@@ -63,6 +71,21 @@ export const HomeScreen = () => {
       <View>
         <Image style={styles.img} source={require("../../img/ken_del_2021.jpeg")}/>
       </View>
+
+      <Button title="setData" onPress={async () => {
+        setBasket('@storage_Key');
+      }}>setData</Button>
+
+      <Button title='getData' onPress={async () => {
+        console.log(await getBasketItem('@storage_Key'))
+      }}>getData</Button>
+
+      <Button title='removeItem' onPress={async () => {
+        try {
+          await AsyncStorage.removeItem('@storage_Key')
+        } catch(e) {}
+      }}>removeItem</Button>
+
       {/*<Button title={"Base Categories"} onPress={() => {
         post(categories,"Categories")
       }}>Base Categories</Button>

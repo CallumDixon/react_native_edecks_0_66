@@ -1,18 +1,8 @@
-import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Button,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { ActivityIndicator, Button, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
 import { listProducts } from "../../src/graphql/queries";
-// @ts-ignore
+import { SetBasketContext } from "../../functions/context";
 
 export interface IProduct {
   id: String
@@ -28,27 +18,12 @@ const getProduct = async (name: String) => {
   return API.graphql(graphqlOperation(listProducts, { filter: filter }));
 }
 
-/*export const setBasketItem = async (name: string) => {
-  await AsyncStorage.setItem(name, String(1));
-}
-
-export const getBasketItem = async (name: string) => {
-
-  try {
-    const value = await AsyncStorage.getItem(name);
-    if (value !== null) {
-      // We have data!!
-      console.log(value);
-    }
-  } catch (error) {
-    // Error retrieving data
-  }
-}*/
-
 const ProductScreen = ({navigation,route} :any) => {
 
   const [products,setProducts] = useState<IProduct | undefined>(undefined)
   const [loading,setLoading] = useState(true)
+
+  const setBasket = useContext(SetBasketContext)
 
   useEffect( () => {
     getProduct(route.params.name )
@@ -58,6 +33,7 @@ const ProductScreen = ({navigation,route} :any) => {
         setLoading(false)
     })
   },[])
+
 
   return(
     <SafeAreaView style = {styles.container}>
@@ -70,7 +46,13 @@ const ProductScreen = ({navigation,route} :any) => {
           <Image style={styles.img} source={require("../../img/45-x-45mm-(2-x-2)-C16-Graded-PAR-Eased-Edge-Treated-Timber45-x-45mm-(2-x-2)-C16-Graded-PAR-Eased-Edge-Treated-Timber.jpeg")}/>
           <Text style = {styles.cost}>{products?.description}</Text>
           <Text style = {styles.description}>{products?.cost}</Text>
-          <Button title="Add to Basket" >Add to Basket</Button>
+          <Button title="Add to Basket" onPress={async () => {
+
+            if (setBasket) {
+              setBasket(products?.name as string);
+            }
+          }
+          }>Add to Basket</Button>
         </View>
       }
       </ScrollView>
