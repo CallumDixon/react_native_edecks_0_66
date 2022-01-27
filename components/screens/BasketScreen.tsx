@@ -8,6 +8,11 @@ import { BasketContext } from "../../functions/context";
 export const BasketScreen = () => {
 
   const basket = React.useContext(BasketContext)
+
+  useEffect(() => {
+    console.log(basket)
+  },[])
+
   return (
     <View style={styles.screen}>
     <Text>{basket}</Text>
