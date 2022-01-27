@@ -3,7 +3,7 @@ import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { API, Predicates } from "aws-amplify";
 import * as mutations from '../../src/graphql/mutations'
 import * as queries from "../../src/graphql/queries";
-import { getBasketItem, setBasketItem } from "../../functions/deviceStorage";
+import { getBasketItem, setBasketItem, getMultiple, getAll, deleteMultiple } from "../../functions/deviceStorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 interface ICategoryItem {
   name: string
@@ -85,6 +85,19 @@ export const HomeScreen = () => {
           await AsyncStorage.removeItem('@storage_Key')
         } catch(e) {}
       }}>removeItem</Button>
+
+      <Button title='getAllKeyValuePairs' onPress={async () => {
+        try {
+          // @ts-ignore
+          console.log(await getMultiple(await getAll()))
+        }
+        catch(e){}
+      }}>getAllKeyValuePairs</Button>
+
+      <Button title='deleteAllKeyValuePairs' onPress={async () => {
+        // @ts-ignore
+        console.log(await deleteMultiple(await getAll()))
+      }}>deleteAllKeyValuePairs</Button>
 
       {/*<Button title={"Base Categories"} onPress={() => {
         post(categories,"Categories")
