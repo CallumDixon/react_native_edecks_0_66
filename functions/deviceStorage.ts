@@ -5,20 +5,18 @@ interface TypeKeyValuePair {
   value: string
 }
 
-export const setBasketItem = async (name: string) => {
+export const setBasketItem = async (items: object) => {
   try {
-    await AsyncStorage.setItem(name, name)
-  } catch (e) {
-    // saving error
-  }}
+    await AsyncStorage.setItem('@storage_KeyRN', JSON.stringify(items))
+  } catch (e) {}
+}
 
-export const getBasketItem = async (name: string) => {
+export const getBasketItem = async () => {
 
   try {
-    return await AsyncStorage.getItem(name)
-  } catch (error) {
-    // Error retrieving data
-  }
+    const basket = await AsyncStorage.getItem('@storage_KeyRN')
+    return basket != null ? JSON.parse(basket) : null
+  } catch (error) {}
 }
 
 export const removeItem = async (name: string) => {

@@ -2,27 +2,42 @@ import * as React from "react";
 import { useState, createContext, useEffect } from "react";
 import { setBasketItem , getBasketItem} from "./deviceStorage";
 
-const BasketContext = createContext <string | undefined>(undefined)
+const BasketContext = createContext <object | undefined>(undefined)
 const SetBasketContext = createContext <any>(undefined)
 
 const BasketContextProvider = ({children}:any) => {
 
-  const [items, setItems] = useState<string>()
+  const [items, setItems] = useState({})
 
+  console.log("render")
+
+  // Read the basket items from the disk and add them to the initial state
   useEffect(() => {
-    getBasketItem("@storage_Key").then(val => {
+    getBasketItem().then(val => {
       if(val) {
         setItems(val)
       }
     })
   },[])
 
-  const setBasketStorage =  (key: string) => {
-    setItems(key)
-    console.log("changed values")
-    setBasketItem(key).then(() => {
-      return (1)
-    })
+  // Function that allows context consumers to change the basket
+  // It updates the context state and then saves it to the device
+  const setBasketStorage =  (name : string, quantity : number, AddFlag: boolean) => {
+
+    if(AddFlag){
+      const size  = Object.keys(items).length
+      const newItem =  { [size] : { "name" : name, "quantity" : quantity }}
+
+      let oldItems = items
+
+      let newItems = Object.assign(oldItems,newItem)
+      setItems(newItem)
+      //setBasketItem(newItem).then(() => 1)
+    }
+
+    else {
+
+    }
   }
 
   return (
@@ -34,5 +49,5 @@ const BasketContextProvider = ({children}:any) => {
   )
 }
 
-
+// Pass down the current basket and function to change the basket
 export { BasketContext, SetBasketContext, BasketContextProvider}

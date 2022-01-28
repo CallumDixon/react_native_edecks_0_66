@@ -11,7 +11,7 @@ interface ICategoryItem {
   order: number
 }
 import { SetBasketContext } from "../../functions/context";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 
 const categories = [{name :'Timber & Sheet Materials'}, {name : 'Building Materials'}, {name : 'Landscaping & Gardening'},
@@ -27,10 +27,10 @@ const building_materials = [{name: 'Bricks & Blocks'},{name:'Aggregates'},{name:
   {name:'Drainage'},{name:'Above Ground (Soil)'},{name:'Plaster & Plasterboards'},{name:'Lintels'},
   {name:'Building Chemicals'},{name:'Metalwork'},{name:'Damp Proof Course'},{name:'Wire & Mesh'},{name:'Best Sellers'}]
 
+
 export const HomeScreen = () => {
 
   const setBasket = useContext(SetBasketContext)
-
 
   const post = async (parentArray:any,parentName: string) => {
     for (let i = 0; i < parentArray.length; i++) {
@@ -72,32 +72,25 @@ export const HomeScreen = () => {
         <Image style={styles.img} source={require("../../img/ken_del_2021.jpeg")}/>
       </View>
 
-      <Button title="setData" onPress={async () => {
-        setBasket('@storage_Key');
+      <Button title="Add test item1 to basket" onPress={async () => {
+        setBasket('Item 1', 4, true);
+      }}>setData</Button>
+
+      <Button title="Add test item2 to basket" onPress={async () => {
+        setBasket('Item 2', 5, true);
       }}>setData</Button>
 
       <Button title='getData' onPress={async () => {
-        console.log(await getBasketItem('@storage_Key'))
+        console.log(await getBasketItem())
       }}>getData</Button>
 
       <Button title='removeItem' onPress={async () => {
         try {
-          await AsyncStorage.removeItem('@storage_Key')
+          await AsyncStorage.removeItem('@storage_KeyRN')
         } catch(e) {}
       }}>removeItem</Button>
 
-      <Button title='getAllKeyValuePairs' onPress={async () => {
-        try {
-          // @ts-ignore
-          console.log(await getMultiple(await getAll()))
-        }
-        catch(e){}
-      }}>getAllKeyValuePairs</Button>
 
-      <Button title='deleteAllKeyValuePairs' onPress={async () => {
-        // @ts-ignore
-        console.log(await deleteMultiple(await getAll()))
-      }}>deleteAllKeyValuePairs</Button>
 
       {/*<Button title={"Base Categories"} onPress={() => {
         post(categories,"Categories")

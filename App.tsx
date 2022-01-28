@@ -21,7 +21,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BasketContextProvider } from "./functions/context";
 const Tab = createBottomTabNavigator();
 
-
 const App = () => {
 
     return (
