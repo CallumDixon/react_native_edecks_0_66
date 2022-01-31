@@ -5,9 +5,9 @@ interface TypeKeyValuePair {
   value: string
 }
 
-export const setBasketItem = async (items: object) => {
+export const setBasketItem = async (index: number,items: object) => {
   try {
-    await AsyncStorage.setItem('@storage_KeyRN', JSON.stringify(items))
+    await AsyncStorage.setItem(String(index), JSON.stringify(items))
   } catch (e) {}
 }
 
@@ -19,11 +19,11 @@ export const getBasketItem = async () => {
   } catch (error) {}
 }
 
-export const removeItem = async (name: string) => {
+export const removeItem = async () => {
   try {
-    await AsyncStorage.removeItem(name)
+    await AsyncStorage.clear()
   } catch(e) {
-    // remove error
+    // clear error
   }
 }
 
@@ -36,9 +36,9 @@ export const getAll = async () => {
 
 }
 
-export const getMultiple = async (KeyArray: Array<string>) => {
+export const getMultiple = async (KeyArray: Array<string> | undefined) => {
   try {
-    return (await AsyncStorage.multiGet(KeyArray))
+    if(KeyArray) return (await AsyncStorage.multiGet(KeyArray))
   }
   catch(e) {}
   return undefined

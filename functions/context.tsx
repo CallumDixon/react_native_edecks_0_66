@@ -1,23 +1,37 @@
 import * as React from "react";
 import { useState, createContext, useEffect } from "react";
-import { setBasketItem , getBasketItem} from "./deviceStorage";
+import { setBasketItem , getAll, getMultiple} from "./deviceStorage";
+
+interface IBasketItem {
+  name: String
+  quantity: Number
+}
 
 const BasketContext = createContext <object | undefined>(undefined)
 const SetBasketContext = createContext <any>(undefined)
 
 const BasketContextProvider = ({children}:any) => {
 
-  const [items, setItems] = useState({})
-
-  console.log("render")
+  const [items, setItems] = useState<Array<IBasketItem>>([])
 
   // Read the basket items from the disk and add them to the initial state
   useEffect(() => {
-    getBasketItem().then(val => {
-      if(val) {
-        setItems(val)
-      }
-    })
+    getAll()
+      .then(keys => {
+        getMultiple(keys)
+          .then((keyValue) => {
+            if(keyValue){
+
+              let newItems = []
+
+              for (let i = 0; i <keyValue.length; i++) {
+                newItems.push(JSON.parse(keyValue[i][1] as string))
+              }
+              // @ts-ignore
+              setItems([...newItems])
+            }
+          })
+      })
   },[])
 
   // Function that allows context consumers to change the basket
@@ -25,18 +39,18 @@ const BasketContextProvider = ({children}:any) => {
   const setBasketStorage =  (name : string, quantity : number, AddFlag: boolean) => {
 
     if(AddFlag){
-      const size  = Object.keys(items).length
-      const newItem =  { [size] : { "name" : name, "quantity" : quantity }}
 
-      let oldItems = items
+      const newItem = { "name" : name, "quantity" : quantity }
 
-      let newItems = Object.assign(oldItems,newItem)
-      setItems(newItem)
-      //setBasketItem(newItem).then(() => 1)
+      const oldItems = items;
+      oldItems.push(newItem)
+
+      setItems([...oldItems])
+      setBasketItem(items.length,newItem).then(() => 1)
     }
 
     else {
-
+      setItems([])
     }
   }
 

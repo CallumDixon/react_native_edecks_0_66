@@ -3,7 +3,7 @@ import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { API, Predicates } from "aws-amplify";
 import * as mutations from '../../src/graphql/mutations'
 import * as queries from "../../src/graphql/queries";
-import { getBasketItem, setBasketItem, getMultiple, getAll, deleteMultiple } from "../../functions/deviceStorage";
+import { getBasketItem, removeItem } from "../../functions/deviceStorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 interface ICategoryItem {
   name: string
@@ -85,9 +85,8 @@ export const HomeScreen = () => {
       }}>getData</Button>
 
       <Button title='removeItem' onPress={async () => {
-        try {
-          await AsyncStorage.removeItem('@storage_KeyRN')
-        } catch(e) {}
+        await removeItem()
+        setBasket('',1,false)
       }}>removeItem</Button>
 
 

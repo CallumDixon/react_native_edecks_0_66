@@ -1,19 +1,55 @@
 import * as React from 'react';
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, FlatList, SafeAreaView } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { BasketContext } from "../../functions/context";
+import { getProduct, getProducts } from "../../functions/api";
+import * as Console from "console";
+
+interface IBasketItem {
+  name: String
+  quantity: Number
+}
+
+interface IBasketItemView {
+  item: IBasketItem
+}
 
 export const BasketScreen = () => {
 
-  const basket = React.useContext(BasketContext)
+  const contextBasket = React.useContext<Array<IBasketItem>>(BasketContext)
+  const [BasketItems,setBasketItems] = useState<Array<IBasketItem>>([])
+
   useEffect(() => {
-    //console.log(basket)
-  })
+
+    let arr = contextBasket.map((item) => JSON.stringify(item.name))
+
+    getProducts(arr).then(products => {
+
+      let productArray = products.data.listProducts.items
+
+      for(let i = 0; i < productArray.length; i++){
+        console.log(productArray[i].name)
+      }
+    })
+  },[contextBasket])
+
+  const Item = ({ name } : IBasketItem) => (
+    <View>
+      <Text>{name}</Text>
+    </View>
+  )
+
+  const renderItem = ({ item } : IBasketItemView) => (
+    <Item name={item.name} quantity={item.quantity}/>
+  )
 
   return (
-    <View style={styles.screen}>
-      <Text>{ JSON.stringify(basket) }</Text>
-    </View>
+    <SafeAreaView>
+      <FlatList
+        data={contextBasket}
+        renderItem={renderItem}
+        keyExtractor={item => item.name}/>
+    </SafeAreaView>
   )
 }
 

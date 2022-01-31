@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, Button, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
-import { API, graphqlOperation } from "aws-amplify";
-import { listProducts } from "../../src/graphql/queries";
 import { SetBasketContext } from "../../functions/context";
+import { getProduct } from "../../functions/api";
 
 export interface IProduct {
   id: String
@@ -10,12 +9,6 @@ export interface IProduct {
   parent: String
   description: String
   cost: Number
-}
-
-const getProduct = async (name: String) => {
-
-  let filter = { name: { eq: name} }
-  return API.graphql(graphqlOperation(listProducts, { filter: filter }));
 }
 
 const ProductScreen = ({navigation,route} :any) => {
@@ -49,7 +42,7 @@ const ProductScreen = ({navigation,route} :any) => {
           <Button title="Add to Basket" onPress={async () => {
 
             if (setBasket) {
-              setBasket(products?.name as string);
+              setBasket(products?.name,1,true)
             }
           }
           }>Add to Basket</Button>
