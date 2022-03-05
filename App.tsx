@@ -81,7 +81,6 @@ const App = () => {
                                 <Icon name="shopping-basket" size={30} color={color}/>
                             )
                         }}/>
-
                 </Tab.Navigator>
             </BasketContextProvider>
         </NavigationContainer>

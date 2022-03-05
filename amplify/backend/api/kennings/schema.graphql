@@ -13,10 +13,16 @@ type Category @model
 }
 
 type Product @model
+@key(
+  name: "byOrder"
+  fields: ["parent","order"]
+  queryField: "productByOrder"
+)
 {
   id: ID!
   name: String!
   parent: String!
   description: String!
   cost: Float
+    order: Int
 }

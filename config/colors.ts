@@ -3,5 +3,4 @@ export const colors = {
     ed_black: 'black',
     ken_green: '#96c72b',
     ken_grey: '#35353F'
-
 }

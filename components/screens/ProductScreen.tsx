@@ -19,7 +19,7 @@ const ProductScreen = ({navigation,route} :any) => {
   const setBasket = useContext(SetBasketContext)
 
   useEffect( () => {
-    getProduct(route.params.name )
+    getProduct(route.params.title )
       .then((product) => {
       // @ts-ignore
         setProducts(product.data.listProducts.items[0])

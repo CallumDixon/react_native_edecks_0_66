@@ -108,6 +108,7 @@ export type CreateProductInput = {
   parent: string,
   description: string,
   cost?: number | null,
+  order?: number | null,
 };
 
 export type ModelProductConditionInput = {
@@ -115,6 +116,7 @@ export type ModelProductConditionInput = {
   parent?: ModelStringInput | null,
   description?: ModelStringInput | null,
   cost?: ModelFloatInput | null,
+  order?: ModelIntInput | null,
   and?: Array< ModelProductConditionInput | null > | null,
   or?: Array< ModelProductConditionInput | null > | null,
   not?: ModelProductConditionInput | null,
@@ -139,6 +141,7 @@ export type Product = {
   parent: string,
   description: string,
   cost?: number | null,
+  order?: number | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -149,6 +152,7 @@ export type UpdateProductInput = {
   parent?: string | null,
   description?: string | null,
   cost?: number | null,
+  order?: number | null,
 };
 
 export type DeleteProductInput = {
@@ -194,6 +198,7 @@ export type ModelProductFilterInput = {
   parent?: ModelStringInput | null,
   description?: ModelStringInput | null,
   cost?: ModelFloatInput | null,
+  order?: ModelIntInput | null,
   and?: Array< ModelProductFilterInput | null > | null,
   or?: Array< ModelProductFilterInput | null > | null,
   not?: ModelProductFilterInput | null,
@@ -287,6 +292,7 @@ export type CreateProductMutation = {
     parent: string,
     description: string,
     cost?: number | null,
+    order?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -305,6 +311,7 @@ export type UpdateProductMutation = {
     parent: string,
     description: string,
     cost?: number | null,
+    order?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -323,6 +330,7 @@ export type DeleteProductMutation = {
     parent: string,
     description: string,
     cost?: number | null,
+    order?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -380,6 +388,7 @@ export type GetProductQuery = {
     parent: string,
     description: string,
     cost?: number | null,
+    order?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -401,6 +410,7 @@ export type ListProductsQuery = {
       parent: string,
       description: string,
       cost?: number | null,
+      order?: number | null,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -427,6 +437,33 @@ export type CategoryByOrderQuery = {
       parent: string,
       order?: number | null,
       leaf_node?: boolean | null,
+      createdAt: string,
+      updatedAt: string,
+    } >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ProductByOrderQueryVariables = {
+  parent?: string | null,
+  order?: ModelIntKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelProductFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ProductByOrderQuery = {
+  productByOrder?:  {
+    __typename: "ModelProductConnection",
+    items:  Array< {
+      __typename: "Product",
+      id: string,
+      name: string,
+      parent: string,
+      description: string,
+      cost?: number | null,
+      order?: number | null,
       createdAt: string,
       updatedAt: string,
     } >,
@@ -481,6 +518,7 @@ export type OnCreateProductSubscription = {
     parent: string,
     description: string,
     cost?: number | null,
+    order?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -494,6 +532,7 @@ export type OnUpdateProductSubscription = {
     parent: string,
     description: string,
     cost?: number | null,
+    order?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -507,6 +546,7 @@ export type OnDeleteProductSubscription = {
     parent: string,
     description: string,
     cost?: number | null,
+    order?: number | null,
     createdAt: string,
     updatedAt: string,
   } | null,

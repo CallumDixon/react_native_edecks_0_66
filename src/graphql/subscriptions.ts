@@ -49,6 +49,7 @@ export const onCreateProduct = /* GraphQL */ `
       parent
       description
       cost
+      order
       createdAt
       updatedAt
     }
@@ -62,6 +63,7 @@ export const onUpdateProduct = /* GraphQL */ `
       parent
       description
       cost
+      order
       createdAt
       updatedAt
     }
@@ -75,6 +77,7 @@ export const onDeleteProduct = /* GraphQL */ `
       parent
       description
       cost
+      order
       createdAt
       updatedAt
     }

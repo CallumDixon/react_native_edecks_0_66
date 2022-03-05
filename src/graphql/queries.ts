@@ -43,6 +43,7 @@ export const getProduct = /* GraphQL */ `
       parent
       description
       cost
+      order
       createdAt
       updatedAt
     }
@@ -61,6 +62,7 @@ export const listProducts = /* GraphQL */ `
         parent
         description
         cost
+        order
         createdAt
         updatedAt
       }
@@ -91,6 +93,37 @@ export const categoryByOrder = /* GraphQL */ `
         parent
         order
         leaf_node
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const productByOrder = /* GraphQL */ `
+  query ProductByOrder(
+    $parent: String
+    $order: ModelIntKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelProductFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    productByOrder(
+      parent: $parent
+      order: $order
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        parent
+        description
+        cost
+        order
         createdAt
         updatedAt
       }

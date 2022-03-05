@@ -3,7 +3,6 @@ import { View, StyleSheet, Text, FlatList, SafeAreaView } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { BasketContext } from "../../functions/context";
 import { getProduct, getProducts } from "../../functions/api";
-import * as Console from "console";
 
 interface IBasketItem {
   name: String

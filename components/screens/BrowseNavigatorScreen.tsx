@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import BrowseScreen from "./BrowseScreen";
 import ProductScreen from "./ProductScreen";
+import ProductsScreen from "./ProductsScreen";
 
 const Stack = createStackNavigator();
 
@@ -19,8 +20,16 @@ const BrowseScreenNavigator = () => {
 
           <Stack.Screen
             name={"Products"}
-            component = {ProductScreen}
+            component = {ProductsScreen}
+            options = {({route}:any) => ({
+              title: route.params.title
+            })}
           />
+
+          <Stack.Screen name={"Product"} component={ProductScreen} options={({ route }: any) => ({
+            title: route.params.title
+          })}/>
+
       </Stack.Navigator>
   );
 }
