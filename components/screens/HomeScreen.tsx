@@ -12,6 +12,7 @@ interface ICategoryItem {
 }
 import { SetBasketContext } from "../../functions/context";
 import { useContext, useState } from "react";
+import { colors } from "../../config/colors";
 
 
 const categories = [{name :'Timber & Sheet Materials'}, {name : 'Building Materials'}, {name : 'Landscaping & Gardening'},
@@ -54,40 +55,45 @@ export const HomeScreen = () => {
     console.log(categories.data.listCategorys.items)
   }
 
-  const deleteAll = async() => {
-    //DataStore.delete(Categories,Predicates.ALL)
-    }
-
   return(
     <View style={styles.screen}>
 
-      <View>
-        <Text>Product of the Week</Text>
-        <Text>Super Fast Delivery</Text>
-        <Text>Contact our Sales Team</Text>
-        <Text>Instant free Credit</Text>
+        {/*<Text style={styles.homeItem}>Product of the Week</Text>*/}
+        {/*<Text style={styles.homeItem}>Super Fast Delivery</Text>*/}
+        {/*<Text style={styles.homeItem}>Contact our Sales Team</Text>*/}
+        {/*<Text style={styles.homeItem}>Instant free Credit</Text>*/}
+        {/*<Image style={styles.img} source={require("../../img/ken_del_2021.jpeg")}/>*/}
+
+      <View style={styles.homeScreenItem}>
+        <Image style={styles.img} source={require("../../img/k_productofweek_banner.png")}/>
       </View>
 
-      <View>
-        <Image style={styles.img} source={require("../../img/ken_del_2021.jpeg")}/>
+      <View style={styles.homeScreenItem}>
+        <View style={styles.row2}>
+          <View style={styles.row2col1}>
+            <Text style={styles.homeItem}>Call Us Today On{"\n"} 01405 720127</Text>
+            <Text style={styles.homeItem}>Or why not Visit Us?</Text>
+          </View>
+          <Image source={require("../../img/k_findus.png")}/>
+        </View>
       </View>
 
-      <Button title="Add test item1 to basket" onPress={async () => {
-        setBasket('Item 1', 4, true);
-      }}>setData</Button>
+      {/*<Button title="Add test item1 to basket" onPress={async () => {*/}
+      {/*  setBasket('Item 1', 4, true);*/}
+      {/*}}>setData</Button>*/}
 
-      <Button title="Add test item2 to basket" onPress={async () => {
-        setBasket('Item 2', 5, true);
-      }}>setData</Button>
+      {/*<Button title="Add test item2 to basket" onPress={async () => {*/}
+      {/*  setBasket('Item 2', 5, true);*/}
+      {/*}}>setData</Button>*/}
 
-      <Button title='getData' onPress={async () => {
-        console.log(await getBasketItem())
-      }}>getData</Button>
+      {/*<Button title='getData' onPress={async () => {*/}
+      {/*  console.log(await getBasketItem())*/}
+      {/*}}>getData</Button>*/}
 
-      <Button title='removeItem' onPress={async () => {
-        await removeItem()
-        setBasket('',1,false)
-      }}>removeItem</Button>
+      {/*<Button title='removeItem' onPress={async () => {*/}
+      {/*  await removeItem()*/}
+      {/*  setBasket('',1,false)*/}
+      {/*}}>removeItem</Button>*/}
 
 
 
@@ -117,11 +123,33 @@ export const HomeScreen = () => {
 let styles = StyleSheet.create({
   screen: {
     flex: 1,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  homeScreenItem: {
+    borderRadius: 20,
+    borderColor: colors.ken_green,
+    borderWidth: 10,
+    marginVertical: 2
+  },
+  homeItem: {
+    padding: 10,
+    marginVertical: 1,
+    marginHorizontal: 2,
+    borderWidth:1,
+    borderRadius:5,
+    borderColor:'grey'
+  },
+  row2: {
+    flexDirection: "row"
+  },
+  row2col1: {
+    flexDirection: "column",
+    justifyContent: "center"
   },
   img: {
-    width: 200,
-    height: 200
-  }
+    alignSelf: "center"
+  },
 })
 
 export default HomeScreen
